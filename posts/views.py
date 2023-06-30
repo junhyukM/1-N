@@ -31,6 +31,7 @@ def detail(request, id):
     comment_form = CommentForm()
 
     comments = post.comment_set.all()
+    
 
     context = {
         'post': post,
@@ -45,7 +46,12 @@ def comments_create(request, post_id):
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
+            # 1. 첫번째 방법
             comment.post_id = post_id
+            # 2. 두번째 방법
+            # post = Post.objects.get(id=post_id)
+            # comment.post = post
+
             comment.save()
             
             return redirect('posts:detail', post_id)
